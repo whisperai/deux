@@ -1,15 +1,14 @@
 from __future__ import absolute_import, unicode_literals
 
+from django.urls import reverse
 from mock import patch
-
-from django.core.urlresolvers import reverse
 from rest_framework import status
 
+from deux import strings
 from deux.app_settings import mfa_settings
 from deux.constants import DISABLED, SMS
 from deux.exceptions import FailedChallengeError
 from deux.services import generate_mfa_code
-from deux import strings
 
 from .test_base import BaseUserTestCase
 

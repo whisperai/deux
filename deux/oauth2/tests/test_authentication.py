@@ -1,13 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 
 import json
-import six
 import sys
 from base64 import b64encode
+
+import six
+from django.urls import reverse
 from mock import patch
 from oauth2_provider.models import get_application_model
-
-from django.core.urlresolvers import reverse
 from rest_framework import status
 
 from deux.app_settings import mfa_settings
@@ -22,6 +22,8 @@ else:
 
 Application = get_application_model()
 
+CLIENT_SECRET = "someSecret"
+
 
 class MFAOAuth2TokenTests(BaseUserTestCase):
     url = reverse("oauth2:token")
@@ -32,9 +34,10 @@ class MFAOAuth2TokenTests(BaseUserTestCase):
             name="Test Password Application",
             user=self.user1,
             authorization_grant_type=Application.GRANT_PASSWORD,
+            client_secret=CLIENT_SECRET,
         )
         self.headers = self._get_basic_auth_header(
-            self.application.client_id, self.application.client_secret)
+            self.application.client_id, CLIENT_SECRET)
 
         self.mfa = mfa_settings.MFA_MODEL.objects.create(user=self.user2)
         self.mfa.enable(SMS)

@@ -13,16 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+from django.urls import include, re_path
 
 urlpatterns = [
-    url(r"^api-auth/",
-        include("rest_framework.urls", namespace="rest_framework")),
-    url(r"^mfa/", include("deux.urls")),
-    url(r"^mfa/authtoken/",
+    re_path(r"^api-auth/",
+        include("rest_framework.urls")),
+    re_path(r"^mfa/", include("deux.urls")),
+    re_path(r"^mfa/authtoken/",
         include("deux.authtoken.urls", namespace="authtoken"),
     ),
-    url(r"^mfa/oauth2/",
+    re_path(r"^mfa/oauth2/",
         include("deux.oauth2.urls", namespace="oauth2"),
     ),
 ]
